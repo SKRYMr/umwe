@@ -1,7 +1,8 @@
 import argparse
 import os
+from itertools import chain
 from src.logger import create_logger
-from src.utils import export_fasttext_embeddings, load_fasttext_model_for_export, normalize_embeddings
+from src.utils import load_fasttext_model_for_export, normalize_embeddings
 
 parser = argparse.ArgumentParser(description="FastText conversion")
 parser.add_argument("--exp_path", default="", type=str, help="Path to the experiment to normalize")
@@ -30,7 +31,7 @@ logger.info('============ Initialized logger ============')
 logger.info('\n'.join('%s: %s' % (k, str(v)) for k, v in sorted(dict(vars(params)).items())))
 logger.info('The result will be stored in %s' % norm_path)
 
-for lang in params.src_langs:
+for lang in chain(params.src_langs, params.tgt_lang):
     model_path = os.path.join(params.exp_path, f"vectors-{lang}.bin")
     _, matrix, model = load_fasttext_model_for_export(model_path)
     normalize_embeddings(matrix, "renorm")
