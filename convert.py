@@ -3,7 +3,7 @@ import os
 import torch
 
 from src.logger import create_logger
-from src.utils import apply_mapping_to_fasttext, load_fasttext_model_for_export, export_fasttext_embeddings, normalize_embeddings
+from src.utils import apply_mapping_to_fasttext, load_fasttext_model_for_export, export_fasttext_embeddings
 from torch import nn
 
 parser = argparse.ArgumentParser(description="FastText conversion")
