@@ -374,6 +374,7 @@ def load_bin_embeddings(params, lang, emb_path, full_vocab):
 
     # select a subset of word embeddings (to deal with casing)
     if not full_vocab:
+        words_to_exclude = []
         if params.exclusion_list:
             with open(params.exclusion_list, "r") as fin:
                 words_to_exclude = json.load(fin)

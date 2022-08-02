@@ -8,7 +8,6 @@ parser = argparse.ArgumentParser(description="FastText conversion")
 parser.add_argument("--exp_path", default="", type=str, help="Path to the experiment to normalize")
 parser.add_argument("--tgt_lang", type=str, default="en", help="Target language")
 parser.add_argument("--src_langs", type=str, nargs="+", default=[], help="Source languages used for training, in the same order as src_embs!")
-parser.add_argument("--max_vocab", type=int, default=-1, help="Maximum number of words to load from embeddings vocabulary")
 parser.add_argument("--emb_dim", type=int, default=300, help="Dimension of embeddings")
 
 params = parser.parse_args()
@@ -31,13 +30,15 @@ logger.info('============ Initialized logger ============')
 logger.info('\n'.join('%s: %s' % (k, str(v)) for k, v in sorted(dict(vars(params)).items())))
 logger.info('The result will be stored in %s' % norm_path)
 
-for lang in chain(params.src_langs, params.tgt_lang):
+for lang in params.src_langs + [params.tgt_lang]:
     model_path = os.path.join(params.exp_path, f"vectors-{lang}.bin")
-    _, matrix, model = load_fasttext_model_for_export(model_path)
+    _, matrix, model = load_fasttext_model_for_export(params, lang, model_path)
     normalize_embeddings(matrix, "renorm")
     path = os.path.join(norm_path, f"vectors-{lang}.bin")
     logger.info(f"Writing embeddings to {path}...")
-    model.set_matrices(matrix, model.get_output_matrix())
+    model.set_matrices(matrix.numpy(), model.get_output_matrix())
     model.save_model(path)
     del matrix
     del model
+
+logger.info("DONE!")

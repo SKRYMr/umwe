@@ -38,7 +38,7 @@ parser.add_argument("--exp_name", type=str, default="debug", help="Experiment na
 parser.add_argument("--exp_id", type=str, default="", help="Experiment ID")
 # parser.add_argument("--cuda", type=bool_flag, default=True, help="Run on GPU")
 parser.add_argument("--device", type=str, default="cuda", help="Run on GPU or CPU")
-parser.add_argument("--export", type=str, default="txt", help="Export embeddings after training (txt / pth)")
+parser.add_argument("--export", type=str, default="txt", help="Export embeddings after training (txt / pth / bin)")
 # data
 parser.add_argument("--src_langs", type=str, nargs='+', default=['de', 'es', 'fr', 'it', 'pt'], help="Source languages")
 parser.add_argument("--tgt_lang", type=str, default='en', help="Target language")
